@@ -41,7 +41,9 @@ def run_rclone_move(watch_dir, remote_path, transfers):
 
 def is_output_empty(watch_dir):
     try:
-        entries = [f for f in os.listdir(watch_dir) if not f.startswith('.')]
+        image_exts = {'.png', '.jpg', '.jpeg', '.webp'}
+        entries = [f for f in os.listdir(watch_dir)
+                   if not f.startswith('.') and os.path.splitext(f)[1].lower() in image_exts]
         return len(entries) == 0
     except OSError:
         return False
