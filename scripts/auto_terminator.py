@@ -76,7 +76,22 @@ def monitor_and_shutdown(args):
         time.sleep(10)
     else:
         print('[+] All files synced to Drive. Proceeding to terminate.')
-    
+
+    # ログフォルダをGoogle Driveにアップロード
+    import subprocess
+    log_dir = '/workspace/logs'
+    remote_log_path = os.environ.get('REMOTE_LOG_PATH', 'gdrive:AI/ImageGeneration/RunPod_Output/logs')
+    if os.path.exists(log_dir):
+        print(f'[*] Uploading logs to {remote_log_path}...')
+        result = subprocess.run(
+            ['rclone', 'copy', log_dir, remote_log_path, '--progress'],
+            capture_output=True, text=True
+        )
+        if result.returncode == 0:
+            print('[+] Logs uploaded to Drive.')
+        else:
+            print(f'[!] Log upload failed: {result.stderr}')
+
     # Terminate
     pod_id = os.environ.get('RUNPOD_POD_ID')
     api_key = os.environ.get('MY_RUNPOD_API_KEY')

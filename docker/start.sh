@@ -3,6 +3,7 @@ set -e
 
 echo "[start.sh] /workspace にスクリプトをコピー中..."
 mkdir -p /workspace/scripts
+mkdir -p /workspace/logs
 cp /opt/scripts/auto_uploader.py /workspace/scripts/auto_uploader.py
 cp /opt/scripts/auto_terminator.py /workspace/scripts/auto_terminator.py
 cp /opt/scripts/download_models.sh /workspace/download_models.sh
