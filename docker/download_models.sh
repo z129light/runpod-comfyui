@@ -28,19 +28,19 @@ start_time=$(date +%s)
 # 各ジョブのPIDを記録して終了コードを個別に確認する
 pids=()
 
-huggingface-cli download "${UNET_REPO}" \
+hf download "${UNET_REPO}" \
   "${UNET_FILE}" \
   --local-dir "${COMFY_MODELS_DIR}/diffusion_models" &
 pids+=($!)
 
 # VAEはturboリポジトリから（両モデル共通）
-huggingface-cli download Comfy-Org/z_image_turbo \
+hf download Comfy-Org/z_image_turbo \
   split_files/vae/ae.safetensors \
   --local-dir "${COMFY_MODELS_DIR}/vae" &
 pids+=($!)
 
 # CLIP (Qwen 3.4B): 約7GB。最大のボトルネック。両モデル共通。
-huggingface-cli download Comfy-Org/z_image_turbo \
+hf download Comfy-Org/z_image_turbo \
   split_files/text_encoders/qwen_3_4b.safetensors \
   --local-dir "${COMFY_MODELS_DIR}/text_encoders" &
 pids+=($!)
